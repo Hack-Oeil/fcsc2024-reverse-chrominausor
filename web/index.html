@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrominausor</title>
+</head>
+<body>
+    <canvas id="chrominausor-canvas" style="width: 800px !important;object-fit: contain; image-rendering: pixelated; background-color: white;"></canvas>
+    <script>
+        "use strict";(()=>{window.addEventListener("load",()=>{fetch("/dino.wasm").then(a=>a.arrayBuffer()).then(a=>WebAssembly.instantiate(a,{Math})).then(a=>{let o=a.instance,m=new Uint8Array(o.exports.mem.buffer,12288,9e4),t=document.getElementById("chrominausor-canvas"),d=t.getContext("2d"),l=d.createImageData(300,75),i=new Uint8Array(o.exports.mem.buffer,0,4),u=(s,n)=>{let e;switch(n.code){case"ArrowUp":e=1;break;case"ArrowDown":e=2;break;default:return}s?i[0]|=e:i[0]&=~e,n.preventDefault()};document.addEventListener("keydown",u.bind(null,1),!1),document.addEventListener("keyup",u.bind(null,0),!1),t.style.objectFit="contain",t.style.imageRendering="pixelated",t.style.imageRendering="crisp-edges",t.style.backgroundColor="white";let c={},f=(s,n)=>{for(let e of n.changedTouches)if(s){let r;e.clientX<n.target.clientWidth*.5?r=2:r=1,i[0]|=r,c[e.identifier]=r}else i[0]&=~c[e.identifier],delete c[e.identifier];n.preventDefault()};t.addEventListener("touchstart",f.bind(null,1),!1),t.addEventListener("touchend",f.bind(null,0),!1),function s(){requestAnimationFrame(s),o.exports.run(),l.data.set(m),d.putImageData(l,0,0)}()})});})();
+        /*!
+         * Original source based on https://github.com/binji/raw-wasm/
+         * Copyright 2021 Ben Smith
+         * MIT License
+         */
+    </script>
+</body>
+</html>
